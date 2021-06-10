@@ -21,7 +21,7 @@ variable "ingressrules" {
 }
 
 resource "aws_security_group" "security_group_production" {
-  name        = "Allow traffic"
+  name        = "Allow traffic to prod"
   description = "Allow ssh and 80 ports inbound and everything outbound"
 
   dynamic "ingress" {
