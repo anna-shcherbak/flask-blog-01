@@ -25,7 +25,31 @@ environment {
                }
         }
 
+        stage ('Terraform Plan') {
+	    steps {
+                  script {
+                    sh """
+                    cd Terraform
+                    pwd
+                    terraform init -no-color  
+                    terraform validate -no-color            
+                    terraform plan -no-color
 
+                    """
+                   }
+             }
+        }
+
+        stage ('Terraform Apply') {
+	    steps {
+            sh """
+            cd Terraform
+            pwd
+            terraform apply -no-color -auto-approve
+            terraform destroy --auto-approve -no-color
+            """
+               }
+        }
 
     }
     post {
