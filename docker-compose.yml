@@ -1,0 +1,45 @@
+version: "3.7"
+
+services:
+
+  nginx:
+    build: ./nginx
+    container_name: nginx_cont
+    image: annetta/nginx_img:latest
+    restart: always
+    ports:
+      - "80:80"
+
+  db:
+    build: ./db
+    image: annetta/db_img:latest
+    restart: always
+    container_name: mysql_cont
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: roott
+      MYSQL_DATABASE: db_posts
+    volumes:
+      - mysql_db:/var/lib/mysql
+
+
+  flask:
+    depends_on:
+      - nginx
+      - db
+    links:
+      - db
+    build: ./flask
+    container_name: flask_cont
+    image: annetta/flask_img
+    restart: always
+    environment:
+      - APP_NAME=MyFlaskApp
+    expose:
+      - 8080
+
+volumes:
+  mysql_db:
+
+

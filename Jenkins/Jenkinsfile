@@ -1,0 +1,61 @@
+pipeline {
+
+environment {
+
+    AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+    DOCKER_PASSWD = credentials('DOCKER_PASSWD')
+}
+
+    agent { node { label 'agent1' } }
+
+    stages {
+        stage('Cloning Git') {
+            steps {
+                git branch: 'main', credentialsId: 'jenkins_master_git', url: 'git@github.com:anna-shcherbak/flask-blog-01.git'
+            }
+        }
+        
+        stage("Build images") {
+	    steps {
+              sh 'docker login -uannetta -p $DOCKER_PASSWD'
+	      sh "docker-compose build"
+              sh "docker-compose push" 
+
+               }
+        }
+
+        stage ('Terraform Plan') {
+	    steps {
+                  script {
+                    sh """
+                    cd Terraform
+                    pwd
+                    terraform init -no-color  
+                    terraform validate -no-color            
+                    terraform plan -no-color
+
+                    """
+                   }
+             }
+        }
+
+        stage ('Terraform Apply') {
+	    steps {
+            sh """
+            cd Terraform
+            pwd
+            terraform apply -no-color -auto-approve
+            terraform destroy --auto-approve -no-color
+            """
+               }
+        }
+
+    }
+    post {
+        always  {
+            deleteDir()
+        }
+    }
+
+}
