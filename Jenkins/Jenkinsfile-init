@@ -46,7 +46,6 @@ environment {
             cd Terraform
             pwd
             terraform apply -no-color -auto-approve
-            terraform destroy --auto-approve -no-color
             """
                }
         }
