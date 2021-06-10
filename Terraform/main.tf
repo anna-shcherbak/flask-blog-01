@@ -13,6 +13,15 @@ provider "aws" {
   region  = "eu-central-1"
 }
 
+
+terraform {
+  backend "s3" {
+    bucket = "terraform-bucket-myproject"
+    key    = "terraform.tfstate"
+    region = "eu-central-1"
+  }
+}
+
 # Creation of  aws_security_group
 
 variable "ingressrules" {
