@@ -28,7 +28,7 @@ environment {
         stage("Run app") {
 	    steps {
                   sshagent(['jenkins_master']){
-                  sh "ssh -o StricHostKeyChecking=no ec2-user@18.196.90.168 \"docker-compose pull; docker-compose stop ; docker-compose up -d \" "
+                  sh "ssh -o StrictHostKeyChecking=no ec2-user@18.196.90.168 \"docker-compose pull; docker-compose stop ; docker-compose up -d \" "
                   }
 
                }
