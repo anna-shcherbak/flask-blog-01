@@ -66,15 +66,15 @@ data "aws_ami" "amazon-linux-2" {
   }
 }
 
-# Creation of jenkins master
-resource "aws_instance" "jenkins_master" {
+# Creation of production server
+resource "aws_instance" "production_instance" {
   ami             = data.aws_ami.amazon-linux-2.id
   instance_type   = "t2.micro"
   security_groups = [aws_security_group.security_group_production.name]
   key_name        = "jenkins_instance"
   user_data       = file("prod_instance.sh")
   tags = {
-    "Name"      = "Jenkins_Server"
+    "Name"      = "Production_Server"
     "Terraform" = "true"
   }
 }
