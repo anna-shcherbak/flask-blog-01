@@ -21,8 +21,8 @@ environment {
               sh 'docker login -uannetta -p $DOCKER_PASSWD'
               sh "docker-compose build"
               sh "docker-compose up -d"
-              sh "docker exec -it flask_cont sh"
-              sh "python3 test.py"
+              sh 'docker exec -t flask_cont python3 test.py '
+            
 	      }
 	      
 	}
