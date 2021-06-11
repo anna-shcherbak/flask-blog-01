@@ -5,7 +5,7 @@ sudo yum upgrade -y
 sudo amazon-linux-extras install -y docker
 sudo service docker start
 sudo usermod -a -G docker ec2-user
-newgrp docker
+sudo newgrp docker
 docker info
 sudo systemctl enable docker.service
 sudo systemctl enable containerd.service
