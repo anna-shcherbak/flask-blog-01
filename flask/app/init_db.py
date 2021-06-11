@@ -21,7 +21,7 @@ def executeScriptsFromFile(filename):
         except IOError as msg:
             print ("Command skipped: ", msg)
 
-executeScriptsFromFile('schema.sql')
+executeScriptsFromFile('./app/schema.sql')
 
 
 
