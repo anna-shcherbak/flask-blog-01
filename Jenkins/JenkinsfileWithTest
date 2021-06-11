@@ -19,9 +19,10 @@ environment {
         stage("Build and test images") {
 	    steps {
               sh 'docker login -uannetta -p $DOCKER_PASSWD'
-              sh "docker-compose build"
-              sh "docker-compose up -d"
-              sh "docker exec -d flask_cont python3 test.py "
+              sh 'docker-compose build'
+              sh 'docker-compose up -d'
+              sh 'docker exec -d flask_cont python3 ./app/init_db.py '
+              sh 'docker exec -d flask_cont python3 test.py '
             
 	      }
 	      
