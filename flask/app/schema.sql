@@ -1,6 +1,3 @@
-CREATE DATABASE db_posts;
-use db_posts;
-
 DROP TABLE IF EXISTS posts;
 
 CREATE TABLE posts (
