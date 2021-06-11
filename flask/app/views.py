@@ -1,7 +1,6 @@
 from app import app
 from flask_mysqldb import MySQL 
 import MySQLdb.cursors
-#import sqlite3
 import os.path
 from flask import Flask, render_template, request, url_for, flash, redirect
 from werkzeug.exceptions import abort

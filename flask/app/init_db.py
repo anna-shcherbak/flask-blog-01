@@ -1,23 +1,11 @@
 import mysql.connector
 
 conn  = mysql.connector.connect(
-  host="localhost",
+  host='db',
   user="root",
-  password="_Pr0j3cT_"
+  password="roott"
 )
 #  database="db_posts"
-cursor = conn.cursor()
-cursor.execute("DROP database IF EXISTS db_posts")
-cursor.execute("CREATE DATABASE db_posts")
-
-conn.close()
-
-conn  = mysql.connector.connect(
-  host="localhost",
-  user="root",
-  password="_Pr0j3cT_", 
-  database="db_posts"
-)
 cursor = conn.cursor()
 
 def executeScriptsFromFile(filename):
@@ -33,7 +21,7 @@ def executeScriptsFromFile(filename):
         except IOError as msg:
             print ("Command skipped: ", msg)
 
-executeScriptsFromFile('./app/schema.sql')
+executeScriptsFromFile('schema.sql')
 
 
 
@@ -46,27 +34,7 @@ cursor.execute("INSERT INTO posts (title, content) VALUES (%s, %s)",
 
 
 conn.commit()
+cursor.close()
 conn.close()
 
 
-'''
-import sqlite3
-connection = sqlite3.connect('database.db')
-
-
-with open('schema.sql') as f:
-    connection.executescript(f.read())
-
-cur = connection.cursor()
-
-cur.execute("INSERT INTO posts (title, content) VALUES (?, ?)",
-            ('First Post', 'Content for the first post')
-            )
-
-cur.execute("INSERT INTO posts (title, content) VALUES (?, ?)",
-            ('Second Post', 'Content for the second post')
-            )
-
-connection.commit()
-connection.close()
-'''
