@@ -16,23 +16,11 @@ environment {
             }
         }
         
-        stage("Build and test images") {
+        stage("Build images") {
 	    steps {
               sh 'docker login -uannetta -p $DOCKER_PASSWD'
-              sh 'docker-compose build'
-              sh 'docker-compose up -d'
-              sh 'docker exec -t flask_cont python3 ./app/init_db.py '
-              sh 'docker exec -t flask_cont python3 test.py '
-            
-	      }
-	      
-	}
-	
-        stage("Push images") {
-	    steps {	      
+	      sh "docker-compose build"
               sh "docker-compose push" 
-              sh "docker rm -f flask_cont nginx_cont mysql_cont"
-              sh "docker rmi annetta/nginx_img annetta/flask_img annetta/db_img"
 
                }
         }

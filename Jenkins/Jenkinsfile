@@ -19,13 +19,29 @@ environment {
         stage("Build images") {
 	    steps {
               sh 'docker login -uannetta -p $DOCKER_PASSWD'
-	      sh "docker-compose build"
+              sh 'docker-compose build'            
+	      }      
+	}
+	
+	        stage("Test") {
+	    steps {
+              sh 'docker-compose up -d'
+              sh 'docker exec -t flask_cont python3 ./app/init_db.py '
+              sh 'docker exec -t flask_cont python3 test.py '
+	      }	      
+	}	    
+	    
+	    
+        stage("Push images to Docker Registry") {
+	    steps {	      
               sh "docker-compose push" 
+              sh "docker rm -f flask_cont nginx_cont mysql_cont"
+              sh "docker rmi annetta/nginx_img annetta/flask_img annetta/db_img"
 
                }
         }
         
-        stage("Run app") {
+        stage("Deploy to production") {
 	    steps {
                   sshagent(['jenkins_master']){
                   sh "ssh -o StrictHostKeyChecking=no ec2-user@52.59.46.235 \"cd /home/ec2-user/flask_app ; docker-compose pull; docker-compose stop ; docker-compose up -d \" "
