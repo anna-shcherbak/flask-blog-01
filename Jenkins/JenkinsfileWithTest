@@ -32,6 +32,7 @@ environment {
 	    steps {	      
               sh "docker-compose push" 
               sh "docker rm -f flask_cont nginx_cont mysql_cont"
+              sh "docker rmi annetta/nginx_img annetta/flask_img annetta/db_img"
 
                }
         }

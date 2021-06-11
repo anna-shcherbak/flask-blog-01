@@ -25,14 +25,6 @@ executeScriptsFromFile('./app/schema.sql')
 
 
 
-
-cursor.execute("INSERT INTO posts (title, content) VALUES (%s, %s)",
-            ('First Post', 'Content for the first post', ))
-
-cursor.execute("INSERT INTO posts (title, content) VALUES (%s, %s)",
-            ('Second Post', 'Content for the second post', ))
-
-
 conn.commit()
 cursor.close()
 conn.close()
