@@ -44,7 +44,7 @@ environment {
         stage("Deploy to production") {
 	    steps {
                   sshagent(['jenkins_master']){
-                  sh "ssh -o StrictHostKeyChecking=no ec2-user@3.121.225.95 \"cd /home/ec2-user/flask_app ; docker-compose pull; docker-compose stop ; docker-compose up -d \" "
+                  sh "ssh -o StrictHostKeyChecking=no ec2-user@3.121.225.95 \"cd /home/ec2-user/flask_app ; docker-compose pull; docker-compose stop ; docker-compose up -d ;  docker system prune -f \" "
                   }
 
                }
