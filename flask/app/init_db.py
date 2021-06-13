@@ -24,7 +24,6 @@ def executeScriptsFromFile(filename):
 executeScriptsFromFile('./app/schema.sql')
 
 
-
 conn.commit()
 cursor.close()
 conn.close()
