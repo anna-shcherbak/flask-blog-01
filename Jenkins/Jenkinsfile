@@ -6,7 +6,6 @@ environment {
     AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
     DOCKER_PASSWD = credentials('DOCKER_PASSWD')
 }
-
     agent { node { label 'agent1' } }
 
     stages {
@@ -14,24 +13,23 @@ environment {
             steps {
                 git branch: 'main', credentialsId: 'jenkins_master_git', url: 'git@github.com:anna-shcherbak/flask-blog-01.git'
             }
-        }
+        }    
         
         stage("Build images") {
 	    steps {
               sh 'docker login -uannetta -p $DOCKER_PASSWD'
               sh 'docker-compose build'            
 	      }      
-	}
-	
-	        stage("Test") {
+	}	
+	 
+	stage("Test") {
 	    steps {
               sh 'docker-compose up -d'
               sh 'docker exec -t flask_cont python3 ./app/init_db.py '
               sh 'docker exec -t flask_cont python3 test.py '
 	      }	      
-	}	    
-	    
-	    
+	}
+		    	   	    
         stage("Push images to Docker Registry") {
 	    steps {	      
               sh "docker-compose push" 
@@ -46,18 +44,12 @@ environment {
                   sshagent(['jenkins_master']){
                   sh "ssh -o StrictHostKeyChecking=no ec2-user@3.121.225.95 \"cd /home/ec2-user/flask_app ; docker-compose pull; docker-compose stop ; docker-compose up -d ;  docker system prune -f \" "
                   }
-
-               }
+           }
         }
-
-
-
-
     }
     post {
         always  {
             deleteDir()
         }
     }
-
 }
