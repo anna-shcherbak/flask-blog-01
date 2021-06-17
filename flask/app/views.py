@@ -19,6 +19,7 @@ def get_db_connection():
     return conn
 
 
+
 def get_post(post_id):
     cursor = get_db_connection()
     cursor.execute("SELECT * FROM posts WHERE id = %s",(post_id,))
